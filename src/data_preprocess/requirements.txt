@@ -1,0 +1,16 @@
+av==11.0.0
+diffusers==0.29.2
+imageio-ffmpeg==0.5.1
+insightface==0.7.3
+librosa==0.10.2.post1
+omegaconf==2.3.0
+onnxruntime-gpu==1.19.2
+opencv-contrib-python==4.10.0.84
+opencv-python==4.10.0.84
+opencv-python-headless==4.10.0.84
+safetensors==0.4.3
+torch==2.4.0
+torchvision==0.19.0
+transformers==4.45.2
+einops==0.8.0
+tqdm==4.66.5

@@ -1,0 +1,108 @@
+# label for data
+# Here we take the one sample (start sample index:0, end sample index: 0) as an example. You can change the start_sample and end_sample to fit your own data.
+data_sample:
+  start_sample: 0
+  end_sample: 0
+  av1_flg: False
+
+
+# 1_video_rough_segmentation
+rough_clip:
+  num_workers: 0
+  max_threads: 48 
+  threshold: 7 
+
+  # 2. video clip, duration and vocal check
+  # 2.1 video clip
+  input_json_file: /your-base-folder/video_hq_0_0_correct.json
+  video_clips_folder: /your-base-folder/outputs/rough_segmentaion/video_clips/0_0
+  output_json_folder: /your-base-folder/outputs/rough_segmentaion/json_data
+  json_path: /your-base-folder/outputs/rough_segmentaion/json_data/_Histogram_threshold=0.085_0_0.json
+  use_fixed_duration: False
+  use_augmentation: False # default: False
+  clip_duration: 8
+
+  # detector type and threshold. 
+  # We recommand the pairs (detector_type: Histogram , detector_threshold: 0.085) and (detector_type: Content , detector_threshold: 10.0 ) 
+  detector_type: Histogram
+  detector_threshold: 0.085
+
+  start_sample: 0
+  end_sample: 0
+  av1_flg: False # default to be False
+
+  # 2.2 duration and vocal check
+  duration_threshold: 5.0
+
+
+# 2_video_quality_motion_filtering
+# 2.1 video quality filtering
+dover_filter:
+  input_path: "/your-base-folder/outputs/rough_segmentaion/json_data/_Histogram_threshold=0.085_0_0_duration_threshold=5.0vocal_checked.json"  
+  out_dir: "/your-base-folder/outputs/dover/_Histogram_threshold=0.085_0_0"          
+  test_num: 0                           # test numbers, 0 means all
+  num_processes: 1                       
+  threshold: 5                         # the threshold for filtering
+  model:
+    onnx_path: "/your-base-folder/2_video_quality_motion_filtering/dover/onnx_dover.onnx" # ONNX model path
+  cuda:
+    devices: [0]                      
+  start_sample: 0
+  end_sample: 0
+  av1_flg: False
+
+# 2.2 video motion filtering
+cotracker:
+  # General parameters
+  json_path: /your-base-folder/video_hq_0_0_correct.json
+  output_json: /your-base-folder/outputs/cotracker/_Histogram_threshold=0.085_0_0.json
+  checkpoint: /your-base-folder/2_video_quality_motion_filtering/co-tracker/checkpoints/scaled_offline.pth
+
+
+  # CoTracker parameters
+  backward_tracking: true
+  offline: true
+
+  # GPU parameters
+  num_gpus: 2         # M - GPU number
+  runs_per_gpu: 1      # N - processes per GPU
+  device_ids: [0,1]   
+
+  # Other optional parameter 
+  grid_size: 100
+  grid_query_frame: 0
+  gpu_preprocess: true
+
+  av1_flg: False
+
+
+# 3_head_detail_filtering
+head_filter:
+  input_path: "/your-base-folder/outputs/cotracker/_Histogram_threshold=0.085_0_0.json"
+  output_dir: "/your-base-folder/outputs/head"          
+  num_processes: 1  #num_process_per_gpu
+  cuda: 
+    devices: [0, 1]                     
+  thresholds:
+    avg_movement: 80
+    min_movement: 60
+    
+    avg_orientation: 70
+    min_orientation: 30
+    
+    avg_completeness: 100
+    min_completeness: 100
+    
+    avg_resolution: 50
+    min_resolution: 40
+    
+    avg_rotation: 70
+    min_rotation: 60
+    
+    face_consistency: 80
+  start_sample: 0 
+  end_sample: 0 
+  av1_flg: False
+
+
+

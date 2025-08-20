@@ -1,0 +1,18 @@
+# thresholds:
+head_filter:
+  avg_movement: 80
+  min_movement: 60
+  
+  avg_orientation: 70
+  min_orientation: 30
+  
+  avg_completeness: 100
+  min_completeness: 100
+  
+  avg_resolution: 50
+  min_resolution: 40
+  
+  avg_rotation: 70
+  min_rotation: 60
+  
+  face_consistency: 80
