@@ -13,7 +13,7 @@
 [Guanbin Li](https://scholar.google.com/citations?user=2A2Bx2UAAAAJ), [Ser-Nam Lim†](), [Harry Yang†](), [Benyou Wang†](https://scholar.google.com/citations?user=Jk4vJU8AAAAJ)
 
 * **Institutions**: The Chinese University of Hong Kong, Shenzhen; Sun Yat-sen University; The Hong Kong University of Science and Technology
-* **Resources**: [📄Paper](https://arxiv.org/abs/2508.0xxxx)  [🤗Dataset](https://huggingface.co/datasets/FreedomIntelligence/TalkVid)  [🌐Project Page](https://freedomintelligence.github.io/talk-vid/)
+* **Resources**: [📄Paper](https://arxiv.org/abs/2508.13618)  [🤗Dataset](https://huggingface.co/datasets/FreedomIntelligence/TalkVid)  [🌐Project Page](https://freedomintelligence.github.io/talk-vid/)
 
 ## 💡 Highlights
 
@@ -24,11 +24,11 @@
 * 🔥 **Rich annotations** with high-quality captions and comprehensive metadata
 
 ## 📜 News
-**\[2025/08/08\]** 🚀 Our paper [TalkVid: A Large-Scale Diversified Dataset for Audio-Driven Talking Head Synthesis](https://arxiv.org/abs/2508.0xxxx) is available!
+**\[2025/08/19\]** 🚀 Our paper [TalkVid: A Large-Scale Diversified Dataset for Audio-Driven Talking Head Synthesis](https://arxiv.org/abs/2508.0xxxx) is available!
 
-**\[2025/08/08\]** 🚀 Released TalkVid [dataset](https://huggingface.co/datasets/FreedomIntelligence/TalkVid) and training/inference code!
+**\[2025/08/19\]** 🚀 Released TalkVid [dataset](https://huggingface.co/datasets/FreedomIntelligence/TalkVid) and training/inference code!
 
-**\[2025/08/08\]** 🚀 Released comprehensive data processing pipeline including quality filtering and motion analysis tools!
+**\[2025/08/19\]** 🚀 Released comprehensive data processing pipeline including quality filtering and motion analysis tools!
 
 ## 📊 Dataset
 
@@ -433,11 +433,14 @@ Special thanks to the **V-Express team** for providing excellent open-source inf
 If our work is helpful for your research, please consider giving a star ⭐ and citing our paper 📝
 
 ```bibtex
-@article{chen2025talkvid,
-  title={TalkVid: A Large-Scale Diversified Dataset for Audio-Driven Talking Head Synthesis},
-  author={Chen, Shunian and Huang, Hejin and Liu, Yexin and Ye, Zihan and Chen, Pengcheng and Zhu, Chenghao and Guan, Michael and Wang, Rongsheng and Chen, Junying and Li, Guanbin and Lim, Ser-Nam and Yang, Harry and Wang, Benyou},
-  journal={arXiv preprint arXiv:2508.0xxxx},
-  year={2025}
+@misc{chen2025talkvidlargescalediversifieddataset,
+      title={TalkVid: A Large-Scale Diversified Dataset for Audio-Driven Talking Head Synthesis}, 
+      author={Shunian Chen and Hejin Huang and Yexin Liu and Zihan Ye and Pengcheng Chen and Chenghao Zhu and Michael Guan and Rongsheng Wang and Junying Chen and Guanbin Li and Ser-Nam Lim and Harry Yang and Benyou Wang},
+      year={2025},
+      eprint={2508.13618},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2508.13618}, 
 }
 ```
 
