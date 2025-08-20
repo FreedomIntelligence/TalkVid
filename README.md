@@ -8,9 +8,14 @@
 
 * **Authors**: [Shunian Chen*](https://github.com/Shunian-Chen), 
 [Hejin Huang*](https://orcid.org/0009-0003-6700-8840), 
-[Yexin Liu*](), 
-[Zihan Ye](), [Pengcheng Chen](), [Chenghao Zhu](), [Michael Guan](), [Rongsheng Wang](), [Junying Chen](), 
-[Guanbin Li](https://scholar.google.com/citations?user=2A2Bx2UAAAAJ), [Ser-Nam Lim†](), [Harry Yang†](), [Benyou Wang†](https://scholar.google.com/citations?user=Jk4vJU8AAAAJ)
+[Yexin Liu*](https://scholar.google.com/citations?user=Y8zBpcoAAAAJ), 
+[Zihan Ye](), [Pengcheng Chen](), [Chenghao Zhu](), [Michael Guan](), 
+[Rongsheng Wang](https://scholar.google.com/citations?user=SSaBaioAAAAJ), 
+[Junying Chen](https://scholar.google.com/citations?user=I0raPTYAAAAJ), 
+[Guanbin Li](https://scholar.google.com/citations?user=2A2Bx2UAAAAJ), 
+[Ser-Nam Lim†](https://scholar.google.com/citations?user=HX0BfLYAAAAJ), 
+[Harry Yang†](https://scholar.google.com/citations?user=jpIFgToAAAAJ), 
+[Benyou Wang†](https://scholar.google.com/citations?user=Jk4vJU8AAAAJ)
 
 * **Institutions**: The Chinese University of Hong Kong, Shenzhen; Sun Yat-sen University; The Hong Kong University of Science and Technology
 * **Resources**: [📄Paper](https://arxiv.org/abs/2508.13618)  [🤗Dataset](https://huggingface.co/datasets/FreedomIntelligence/TalkVid)  [🌐Project Page](https://freedomintelligence.github.io/talk-vid/)
@@ -24,7 +29,7 @@
 * 🔥 **Rich annotations** with high-quality captions and comprehensive metadata
 
 ## 📜 News
-**\[2025/08/19\]** 🚀 Our paper [TalkVid: A Large-Scale Diversified Dataset for Audio-Driven Talking Head Synthesis](https://arxiv.org/abs/2508.0xxxx) is available!
+**\[2025/08/19\]** 🚀 Our paper [TalkVid: A Large-Scale Diversified Dataset for Audio-Driven Talking Head Synthesis](https://arxiv.org/abs/2508.13618) is available!
 
 **\[2025/08/19\]** 🚀 Released TalkVid [dataset](https://huggingface.co/datasets/FreedomIntelligence/TalkVid) and training/inference code!
 
@@ -48,21 +53,41 @@
 
 ```json
 {
-  "id": "unique_sample_id",
-  "video-id": "original_video_identifier", 
-  "video-path": "path/to/video/segment.mp4",
-  "audio-path": "path/to/audio/segment.wav",
-  "description-path": "path/to/description.txt",
-  "subtitle-path": "path/to/subtitle.srt",
-  "metadata": {
-    "duration": 10.5,
-    "resolution": "1920x1080",
-    "fps": 25,
-    "language": "en",
-    "speaker_id": "speaker_001",
-    "age_group": "adult",
-    "quality_score": 85.2
-  }
+    "id": "videovideoTr6MMsoWAog-scene1-scene1",
+    "height": 1080,
+    "width": 1920,
+    "fps": 24.0,
+    "start-time": 0.1,
+    "start-frame": 0,
+    "end-time": 5.141666666666667,
+    "end-frame": 121,
+    "durations": "5.042s",
+    "info": {
+        "Person ID": "597",
+        "Ethnicity": "White",
+        "Age Group": "60+",
+        "Gender": "Male",
+        "Video Link": "https://www.youtube.com/watch?v=Tr6MMsoWAog",
+        "Language": "English",
+        "Video Category": "Personal Experience"
+    },
+    "description": "The provided image sequence shows an older man in a suit, likely being interviewed or participating in a recorded conversation. He is seated and maintains a consistent, upright posture. Across the frames, his head rotates incrementally towards the camera's right, suggesting he is addressing someone off-screen in that direction. His facial expressions also show subtle shifts, likely related to speaking or reacting. No significant movements of the hands, arms, or torso are observed.  Because these are still images, any dynamic motion analysis is limited to inferring likely movements from the subtle positional changes between frames.",
+    "dover_scores": 8.9,
+    "cotracker_ratio": 0.9271857142448425,
+    "head_detail": {
+        "scores": {
+            "avg_movement": 97.92236052453518,
+            "min_movement": 89.4061028957367,
+            "avg_rotation": 93.79223716779671,
+            "min_rotation": 70.42514759667668,
+            "avg_completeness": 100.0,
+            "min_completeness": 100.0,
+            "avg_resolution": 383.14267156972596,
+            "min_resolution": 349.6849455656829,
+            "avg_orientation": 80.29047955896623,
+            "min_orientation": 73.27433271185937
+        }
+    }
 }
 ```
 
@@ -72,14 +97,38 @@
 
 The dataset exhibits excellent diversity across multiple dimensions:
 
-- **Languages**: English, Spanish, French, German, Italian, Portuguese, Russian, Arabic, Hindi, Japanese, Korean, Chinese (Mandarin), Chinese (Cantonese), Thai, Vietnamese
-- **Age Groups**: Children (0-12), Teenagers (13-17), Young Adults (18-35), Middle-aged (36-55), Seniors (55+)
-- **Video Quality**: HD (1080p) and 4K (2160p) resolution with quality scores > 80
+- **Languages**: English, Chinese, Arabic, Polish, German, Russian, French, Korean, Portuguese, Japanese, Thai, Spanish, Italian, Hindi
+- **Age Groups**: 0–19, 19–30, 31–45, 46–60, 60+
+- **Video Quality**: HD (1080p) and 4K (2160p) resolution with Dover score (mean ≈ 8.55), Cotracker ratio (mean ≈ 0.92), and head-detail scores concentrated in the 90–100 range
 - **Duration Distribution**: Balanced segments from 3-30 seconds for optimal training
 
-## 🏗️ Data Processing Pipeline
+## ⚖️ Comparison with Other Datasets
 
-Our comprehensive data processing pipeline ensures high-quality dataset construction:
+![compare](assets/compare_table.png)
+
+TalkVid stands as the **largest and most diverse** open-source dataset for audio-driven talking-head generation to date.
+
+| 🔍 Aspect                          | Description                                                         |
+| ---------------------------- | ---------------------------------------------------------------------- |
+| 📈 **Scale**                 | 7,729 speakers, over 1,244 hours of HD/4K footage                      |
+| 🌍 **Diversity**             | Covers **15 languages** and a wide age range (0–60+ years)             |
+| 🧍‍♀️ **Upper-body presence** | Unlike many prior datasets, TalkVid includes upper-body visual context |
+| 📝 **Rich Annotations**      | Comes with **high-quality captions** for every sample                  |
+| 🏞️ **In-the-wild quality**  | Entirely collected in real-world, unconstrained environments           |
+| 🎯 **Quality Assurance**     | Multi-stage filtering with DOVER, CoTracker, and head quality assessment |
+
+Compared to existing benchmarks such as GRID, VoxCeleb, MEAD, or MultiTalk, **TalkVid is the first dataset** to combine:
+
+* **Large-scale multilinguality** across 15+ languages
+* **Wild setting with upper-body inclusion** for more natural synthesis
+* **High-resolution (1080p & 2160p) video** for detailed facial features
+* **Comprehensive metadata** including age, language, quality scores, and captions
+
+> 🧪 Want to push the boundaries of talking-head generation, personalization, or cross-lingual synthesis? TalkVid is your new go-to dataset.
+
+## 🏗️ Data Filtering Pipeline
+
+Our comprehensive data filtering pipeline ensures high-quality dataset construction:
 
 ### 1. Video Rough Segmentation
 ```bash
@@ -214,42 +263,6 @@ Training supports:
 - **Gradient checkpointing** to reduce memory usage
 - **Flexible data loading** with configurable batch sizes and augmentations
 
-## ⚖️ Comparison with Other Datasets
-
-![compare](assets/compare_table.png)
-
-TalkVid stands as the **largest and most diverse** open-source dataset for audio-driven talking-head generation to date.
-
-| 🔍 **Aspect** | **TalkVid** | **VoxCeleb2** | **HDTF** | **MEAD** | **MultiTalk** |
-|---------------|-------------|---------------|----------|-----------|---------------|
-| **Scale** | 7,729 speakers, 1,244+ hours | 6,112 speakers, 2,442 hours | 362 speakers, 15.8 hours | 60 actors, 40+ hours | 142 speakers, 1.67 hours |
-| **Languages** | 15 languages | Primarily English | English | English | English |
-| **Resolution** | HD/4K (1080p-2160p) | Variable (240p-1080p) | HD (1080p) | 1920x1080 | 1920x1080 |
-| **Body Coverage** | Upper body + face | Face only | Face only | Face only | Face only |
-| **Age Range** | 0-60+ years | Adult-focused | Adult-focused | Young adults | Adult-focused |
-| **Environment** | In-the-wild | In-the-wild | Controlled | Controlled | Controlled |
-| **Annotations** | Rich captions + metadata | Basic metadata | Basic metadata | Emotion labels | Basic metadata |
-
-### Key Highlights
-
-| 🔍                           | Key Highlights                                                         |
-| ---------------------------- | ---------------------------------------------------------------------- |
-| 📈 **Scale**                 | 7,729 speakers, over 1,244 hours of HD/4K footage                      |
-| 🌍 **Diversity**             | Covers **15 languages** and a wide age range (0–60+ years)             |
-| 🧍‍♀️ **Full-body presence** | Unlike many prior datasets, TalkVid includes upper-body visual context |
-| 📝 **Rich Annotations**      | Comes with **high-quality captions** for every sample                  |
-| 🏞️ **In-the-wild quality**  | Entirely collected in real-world, unconstrained environments           |
-| 🎯 **Quality Assurance**     | Multi-stage filtering with DOVER, CoTracker, and head quality assessment |
-
-Compared to existing benchmarks such as GRID, VoxCeleb, MEAD, or MultiTalk, **TalkVid is the first dataset** to combine:
-
-* **Large-scale multilinguality** across 15+ languages
-* **Wild setting with upper-body inclusion** for more natural synthesis
-* **High-resolution (1080p & 2160p) video** for detailed facial features
-* **Comprehensive metadata** including age, language, quality scores, and captions
-
-> 🧪 Want to push the boundaries of talking-head generation, personalization, or cross-lingual synthesis? TalkVid is your new go-to dataset.
-
 <!-- ## 🛠️ Model Downloads
 
 | Model Component | Purpose | Download Link | Size |
@@ -286,29 +299,6 @@ We evaluate our model on multiple aspects:
 | SadTalker | 4.89 | 8.92 | 4.67 | 76.8 | 0.28 | 3.6 |
 | V-Express | 3.45 | 7.21 | 5.23 | 52.1 | 0.19 | 4.1 |
 | **TalkVid (Ours)** | **2.87** | **6.43** | **5.89** | **47.3** | **0.16** | **4.3** |
-
-## 💻 System Requirements
-
-### Minimum Requirements
-- **GPU**: NVIDIA RTX 3080 (12GB VRAM) or equivalent
-- **RAM**: 16GB system memory
-- **Storage**: 50GB free space for models and temporary files
-- **CUDA**: Version 11.8 or higher
-
-### Recommended Requirements
-- **GPU**: NVIDIA RTX 4090 (24GB VRAM) or A100/H100
-- **RAM**: 32GB+ system memory
-- **Storage**: 100GB+ SSD for optimal performance
-- **CUDA**: Version 12.1 or higher
-
-### Performance Benchmarks
-
-| GPU Model | VRAM | Inference Speed (FPS) | Training Speed (it/s) |
-|-----------|------|----------------------|----------------------|
-| RTX 3080 | 12GB | 8-12 | 0.8 |
-| RTX 4090 | 24GB | 15-20 | 1.5 |
-| A100 | 40GB | 20-25 | 2.2 |
-| H100 | 80GB | 25-30 | 3.1 |
 
 ## 🔧 Advanced Usage
 
@@ -359,28 +349,6 @@ output = model.generate(
 )
 ```
 
-## 🐛 Troubleshooting
-
-### Common Issues
-
-**Q: CUDA out of memory during training**
-A: Reduce batch size in config files or enable `save_gpu_memory` option
-
-**Q: Audio-video synchronization issues**
-A: Check audio sample rate (should be 16kHz) and ensure proper keypoint extraction
-
-**Q: Poor quality results**
-A: Verify model checkpoints are downloaded correctly and use higher resolution reference images
-
-**Q: Slow inference speed**
-A: Enable `do_multi_devices_inference` for multi-GPU setup or reduce `num_inference_steps`
-
-### Performance Optimization
-
-- **Memory optimization**: Use gradient checkpointing and mixed precision training
-- **Speed optimization**: Reduce inference steps or use multiple GPUs
-- **Quality optimization**: Use higher resolution inputs and more inference steps
-
 ## 🤝 Contributing
 
 We welcome contributions to improve TalkVid! Here's how you can help:
@@ -399,20 +367,6 @@ We welcome contributions to improve TalkVid! Here's how you can help:
 - 📊 **Evaluation metrics**: New benchmarks and evaluation protocols
 - 🌐 **Multi-language support**: Extend to more languages and cultures
 - ⚡ **Optimization**: Speed and memory improvements
-
-### Development Setup
-
-```bash
-# Clone the repository
-git clone https://github.com/FreedomIntelligence/TalkVid.git
-cd TalkVid
-
-# Install in development mode
-pip install -e .
-
-# Run tests
-pytest tests/
-```
 
 ## ❤️ Acknowledgments
 
