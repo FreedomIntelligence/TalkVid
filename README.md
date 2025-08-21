@@ -9,7 +9,9 @@
 * **Authors**: [Shunian Chen*](https://github.com/Shunian-Chen), 
 [Hejin Huang*](https://orcid.org/0009-0003-6700-8840), 
 [Yexin Liu*](https://scholar.google.com/citations?user=Y8zBpcoAAAAJ), 
-[Zihan Ye](), [Pengcheng Chen](), [Chenghao Zhu](), [Michael Guan](), 
+[Zihan Ye](), 
+[Pengcheng Chen](https://github.com/cppppppc), 
+[Chenghao Zhu](), [Michael Guan](), 
 [Rongsheng Wang](https://scholar.google.com/citations?user=SSaBaioAAAAJ), 
 [Junying Chen](https://scholar.google.com/citations?user=I0raPTYAAAAJ), 
 [Guanbin Li](https://scholar.google.com/citations?user=2A2Bx2UAAAAJ), 
@@ -48,6 +50,8 @@
 - **Annotations**: High-quality captions and comprehensive metadata
 
 **Download Link**: [🤗 Hugging Face](https://huggingface.co/datasets/FreedomIntelligence/TalkVid)
+
+**More example videos** can be found in our [🌐 Project Page](https://freedomintelligence.github.io/talk-vid).
 
 #### Data Format
 
@@ -286,68 +290,24 @@ We provide checkpoints for different training stages:
 
 We evaluate our model on multiple aspects:
 
-- **Identity Preservation**: LPIPS, SSIM, L1 distance
-- **Lip Synchronization**: LMD (Landmark Distance), LSE-D, LSE-C
-- **Temporal Consistency**: LPIPS between consecutive frames
-- **Perceptual Quality**: FID, LPIPS, User Study scores
+- **Lip Synchronization**: Sync-C, Sync-D,
+- **Perceptual Quality**: FID, FVD
+
+### TalkVid-Bench
+
+TalkVid-Bench comprises 500 carefully sampled and stratified video clips along four critical demographic and language dimensions: age, gender, ethnicity, and language. This stratified design enables granular analysis of model performance across diverse subgroups, mitigating biases hidden in traditional aggregate evaluations. Each dimension is divided into balanced categories:
+
+- **Age**: 0–19, 19–30, 31–45, 46–60, 60+, with a total of 105 samples.
+- **Gender**: Male, Female, with a total of 100 samples.
+- **Ethnicity**: Black, White, Asian, with a total of 100 samples.
+- **Language**: English, Chinese, Arabic, Polish, German, Russian, French, Korean, Portuguese, Japanese, Thai, Spanish, Italian, Hindi, and Other languages, with a total of 195 samples.
+
 
 ### Benchmark Results
 
-| Method | LMD ↓ | LSE-D ↓ | LSE-C ↑ | FID ↓ | LPIPS ↓ | User Score ↑ |
-|--------|--------|---------|---------|--------|----------|--------------|
-| Wav2Lip | 5.23 | 9.87 | 4.12 | 89.2 | 0.31 | 3.2 |
-| SadTalker | 4.89 | 8.92 | 4.67 | 76.8 | 0.28 | 3.6 |
-| V-Express | 3.45 | 7.21 | 5.23 | 52.1 | 0.19 | 4.1 |
-| **TalkVid (Ours)** | **2.87** | **6.43** | **5.89** | **47.3** | **0.16** | **4.3** |
+<img src="assets/benchmark_results.png" alt="results" width="70%">
 
-## 🔧 Advanced Usage
-
-### Custom Dataset Training
-
-To train on your custom dataset:
-
-1. **Prepare your data** in the TalkVid format
-2. **Update configuration files** in `src/configs/`
-3. **Run the preprocessing pipeline**:
-   ```bash
-   cd src/data_preprocess
-   python process_custom_data.py --input_dir /path/to/your/data
-   ```
-4. **Start training** with your custom config
-
-### Fine-tuning on Specific Speakers
-
-For speaker-specific fine-tuning:
-
-```bash
-# Create speaker-specific configuration
-cp src/configs/stage_3.yaml src/configs/speaker_finetune.yaml
-
-# Modify the config for your speaker data
-# Then run fine-tuning
-python src/train.py --config src/configs/speaker_finetune.yaml
-```
-
-### API Integration
-
-For production use, we provide a simple API wrapper:
-
-```python
-from src.inference import TalkVidInference
-
-# Initialize the model
-model = TalkVidInference(
-    checkpoint_path="/path/to/checkpoint",
-    device="cuda:0"
-)
-
-# Generate video
-output = model.generate(
-    reference_image="/path/to/reference.jpg",
-    audio_file="/path/to/audio.wav",
-    output_path="/path/to/output.mp4"
-)
-```
+Comparison with other baseline training datasets, including HDTF and Hallo3 on **TalkVid-bench** across four dimensions in general.
 
 ## 🤝 Contributing
 
@@ -404,18 +364,7 @@ If our work is helpful for your research, please consider giving a star ⭐ and 
 The **TalkVid dataset** is released under [Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/), allowing only non-commercial research use.
 
 ### Code License
-The **source code** is released under [MIT License](LICENSE), allowing both academic and commercial use with proper attribution.
-
-### Model License
-**Pre-trained models** inherit the licenses of their base components:
-- Stable Diffusion models: [CreativeML Open RAIL-M License](https://huggingface.co/spaces/CompVis/stable-diffusion-license)
-- Wav2Vec2 models: [MIT License](https://github.com/pytorch/fairseq/blob/main/LICENSE)
-- InsightFace models: [MIT License](https://github.com/deepinsight/insightface/blob/master/LICENSE)
-
-### Usage Restrictions
-- **Dataset**: Research use only, no commercial applications
-- **Models trained on TalkVid**: Inherit CC BY-NC 4.0, research use only
-- **Original model components**: Follow respective original licenses
+The **source code** is released under [Apache License 2.0](LICENSE), allowing both academic and commercial use with proper attribution.
 
 ## 🌟 Star History
 
@@ -430,6 +379,6 @@ The **source code** is released under [MIT License](LICENSE), allowing both acad
 [![GitHub stars](https://img.shields.io/github/stars/FreedomIntelligence/TalkVid.svg?style=social&label=Star)](https://github.com/FreedomIntelligence/TalkVid)
 [![GitHub forks](https://img.shields.io/github/forks/FreedomIntelligence/TalkVid.svg?style=social&label=Fork)](https://github.com/FreedomIntelligence/TalkVid)
 
-[🏠 Homepage](https://freedomintelligence.github.io/talk-vid/) | [📄 Paper](https://arxiv.org/abs/2508.0xxxx) | [🤗 Dataset](https://huggingface.co/datasets/FreedomIntelligence/TalkVid) | [💬 Discord](https://discord.gg/talkvid)
+[🏠 Homepage](https://freedomintelligence.github.io/talk-vid/) | [📄 Paper](https://arxiv.org/abs/2508.13618) | [🤗 Dataset](https://huggingface.co/datasets/FreedomIntelligence/TalkVid) | [💬 Discord](https://discord.gg/talkvid)
 
 </div>
