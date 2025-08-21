@@ -305,9 +305,9 @@ TalkVid-Bench comprises 500 carefully sampled and stratified video clips along f
 
 ### Benchmark Results
 
-<img src="assets/benchmark_results.png" alt="results" width="70%">
+![results](assets/benchmark_results.png)
 
-Comparison with other baseline training datasets, including HDTF and Hallo3 on **TalkVid-bench** across four dimensions in general.
+Comparison with other baseline training datasets, including HDTF and Hallo3 on **TalkVid-bench** across four dimensions in general.
 
 ## 🤝 Contributing
 
