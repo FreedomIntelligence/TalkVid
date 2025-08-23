@@ -10,7 +10,7 @@ from torch.utils.data import Dataset, DataLoader
 
 import sys
 sys.path.append('../')
-from datasets.utils import draw_kps_image
+from dataset.utils import draw_kps_image
 
 
 def get_kps_image(target_image, face_info, kps_type='v'):

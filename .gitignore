@@ -1,3 +1,7 @@
 __pycache__
 bak/
 model_ckpts/
+pretrained_model/
+logs/
+exp/
+mlruns/
