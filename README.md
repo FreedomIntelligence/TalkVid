@@ -63,7 +63,7 @@ cd data_pipeline/0_video_download
 python download_clips.py --input input.json --output output --limit 50
 ```
 
-For detailed instructions, see [`data_pipeline/0_video_download/README.md`](download_scripts/README.md).
+For detailed instructions, see [`data_pipeline/0_video_download/README.md`](data_pipeline/0_video_download/README.md).
 
 #### Data Format
 
