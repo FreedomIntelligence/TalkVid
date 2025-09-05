@@ -55,7 +55,7 @@
 
 ### 📥 Data Download
 
-To download video clips from YouTube using the TalkVid dataset metadata:
+To download video clips from YouTube using the [TalkVid dataset](https://huggingface.co/datasets/FreedomIntelligence/TalkVid):
 
 ```bash
 # Use the JSON metadata from HuggingFace
