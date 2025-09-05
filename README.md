@@ -20,7 +20,7 @@
 [Benyou Wang†](https://scholar.google.com/citations?user=Jk4vJU8AAAAJ)
 
 * **Institutions**: The Chinese University of Hong Kong, Shenzhen; Sun Yat-sen University; The Hong Kong University of Science and Technology
-* **Resources**: [📄Paper](https://arxiv.org/abs/2508.13618)  [🤗Dataset](https://huggingface.co/datasets/FreedomIntelligence/TalkVid)  [🌐Project Page](https://freedomintelligence.github.io/talk-vid/)
+* **Resources**: 📄[Paper](https://arxiv.org/abs/2508.13618)  🤗[Dataset](https://huggingface.co/datasets/FreedomIntelligence/TalkVid)  🌐[Project Page](https://freedomintelligence.github.io/talk-vid/)
 
 ## 💡 Highlights
 
@@ -49,9 +49,9 @@
 - **Rich Context**: Full upper-body presence unlike head-only datasets
 - **Annotations**: High-quality captions and comprehensive metadata
 
-**Download Link**: [🤗 Hugging Face](https://huggingface.co/datasets/FreedomIntelligence/TalkVid)
+**Download Link**: 🤗 [Hugging Face](https://huggingface.co/datasets/FreedomIntelligence/TalkVid)
 
-**More example videos** can be found in our [🌐 Project Page](https://freedomintelligence.github.io/talk-vid).
+**More example videos** can be found in our 🌐 [Project Page](https://freedomintelligence.github.io/talk-vid).
 
 ### 📥 Data Download
 
