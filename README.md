@@ -53,6 +53,18 @@
 
 **More example videos** can be found in our [🌐 Project Page](https://freedomintelligence.github.io/talk-vid).
 
+### 📥 Data Download
+
+To download video clips from YouTube using the TalkVid dataset metadata:
+
+```bash
+# Use the JSON metadata from HuggingFace
+cd data_pipeline/0_video_download
+python download_clips.py --input input.json --output output --limit 50
+```
+
+For detailed instructions, see [`data_pipeline/0_video_download/README.md`](download_scripts/README.md).
+
 #### Data Format
 
 ```json
@@ -129,6 +141,8 @@ Compared to existing benchmarks such as GRID, VoxCeleb, MEAD, or MultiTalk, **Ta
 * **Comprehensive metadata** including age, language, quality scores, and captions
 
 > 🧪 Want to push the boundaries of talking-head generation, personalization, or cross-lingual synthesis? TalkVid is your new go-to dataset.
+
+
 
 ## 🏗️ Data Filtering Pipeline
 
