@@ -4,6 +4,7 @@ import re
 import shutil
 import subprocess
 import sys
+import time
 from collections import defaultdict
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from datetime import datetime
@@ -21,6 +22,65 @@ from rich.progress import (
 )  # type: ignore
 
 
+# Global lock for rate limiting concurrent yt-dlp operations
+import threading
+_ytdlp_lock = threading.Lock()
+_last_ytdlp_call = 0.0
+
+
+def rate_limited_call(min_interval: float = 0.5):
+    """
+    Rate limit function calls to prevent overwhelming ffmpeg with concurrent operations.
+    Adds a minimum delay between calls to avoid resource contention.
+    """
+    global _last_ytdlp_call
+    with _ytdlp_lock:
+        now = time.time()
+        elapsed = now - _last_ytdlp_call
+        if elapsed < min_interval:
+            time.sleep(min_interval - elapsed)
+        _last_ytdlp_call = time.time()
+
+
+def retry_on_ffmpeg_error(max_retries: int = 3, base_delay: float = 2.0):
+    """
+    Decorator to retry operations that may fail with ffmpeg exit code -11.
+    Uses exponential backoff to handle transient failures.
+    """
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            last_error = None
+            for attempt in range(max_retries):
+                try:
+                    # Add rate limiting before each attempt
+                    rate_limited_call()
+                    result = func(*args, **kwargs)
+                    # Check if result indicates ffmpeg error
+                    if isinstance(result, tuple) and len(result) == 2:
+                        rc, msg = result
+                        if rc != 0 and ("ffmpeg exited with code -11" in str(msg) or "ffmpeg exited with code -11" in str(msg).lower()):
+                            last_error = msg
+                            if attempt < max_retries - 1:
+                                delay = base_delay * (2 ** attempt)
+                                print(f"[Retry {attempt + 1}/{max_retries}] ffmpeg error detected, waiting {delay:.1f}s before retry...")
+                                time.sleep(delay)
+                                continue
+                        return result
+                    return result
+                except Exception as exc:
+                    last_error = str(exc)
+                    if attempt < max_retries - 1:
+                        delay = base_delay * (2 ** attempt)
+                        print(f"[Retry {attempt + 1}/{max_retries}] Exception: {exc}, waiting {delay:.1f}s before retry...")
+                        time.sleep(delay)
+                        continue
+                    raise
+            # If all retries failed, return the last error
+            if last_error:
+                return (1, f"Failed after {max_retries} retries: {last_error}")
+            return (1, f"Failed after {max_retries} retries")
+        return wrapper
+    return decorator
 
 
 def get_video_id(url: str) -> str:
@@ -164,6 +224,7 @@ def get_yt_dlp_base_cmd(cookies_path: Optional[str], browser: Optional[str]) -> 
     base_cmd = [*base_cmd, "-4", "--ignore-config"]
     return base_cmd, None
 
+@retry_on_ffmpeg_error(max_retries=3, base_delay=2.0)
 def run_yt_dlp_multi_sections(
     url: str,
     segments: List[Tuple[float, float]],
@@ -212,8 +273,8 @@ def run_yt_dlp_multi_sections(
         "--no-playlist",
         "--retries", "10",
         "--fragment-retries", "10",
-        "--concurrent-fragments", "8",
-        "-N", "4",
+        "--concurrent-fragments", "4",  # Reduced from 8 to avoid overwhelming ffmpeg
+        "-N", "2",  # Reduced from 4 to limit concurrent connections
         "--no-warnings",
         "--restrict-filenames",
         "--no-continue", "--no-overwrites",
@@ -254,7 +315,7 @@ def run_yt_dlp_multi_sections(
                 *base_cmd,
                 "-4", "--ignore-config", "--no-playlist",
                 "--retries", "10", "--fragment-retries", "10",
-                "--concurrent-fragments", "8", "-N", "4",
+                "--concurrent-fragments", "4", "-N", "2",  # Reduced to avoid overwhelming ffmpeg
                 "--no-warnings", "--restrict-filenames",
                 "-c", "--no-overwrites",
                 # --- 新增功能 (回退) ---
@@ -547,6 +608,9 @@ def download_with_ytdlp(
                 url, segs, output_dir, cookies_path, browser, extractor_args, True
             )
             futures_map[future] = (url, segs)
+            
+            # Add small delay between task submissions to avoid overwhelming the system
+            time.sleep(0.1)
 
         # 3) 回收
         for fut in as_completed(futures_map):
