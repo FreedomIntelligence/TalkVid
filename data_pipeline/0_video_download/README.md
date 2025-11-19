@@ -117,6 +117,10 @@ python download_clips.py --input clips.json --cleanup
 2. **yt-dlp not found**: Install with `pip install yt-dlp`
 3. **Authentication errors**: Use `--browser` option to extract cookies from your browser
 4. **Slow downloads**: Increase `--workers` count or check your network connection
+5. **ffmpeg exited with code -11**: This is automatically handled with retry logic. If it persists:
+   - Reduce the `--workers` count (try 2 or 1)
+   - Check system resources (memory, CPU)
+   - The script will retry failed downloads up to 3 times with exponential backoff
 
 ## License
 
