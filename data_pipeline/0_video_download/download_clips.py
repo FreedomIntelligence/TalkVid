@@ -65,6 +65,8 @@ def retry_on_ffmpeg_error(max_retries: int = 3, base_delay: float = 2.0):
                                 print(f"[Retry {attempt + 1}/{max_retries}] ffmpeg error detected, waiting {delay:.1f}s before retry...")
                                 time.sleep(delay)
                                 continue
+                            # All retries exhausted for ffmpeg error
+                            return (1, f"Failed after {max_retries} retries: {last_error}")
                         return result
                     return result
                 except Exception as exc:
