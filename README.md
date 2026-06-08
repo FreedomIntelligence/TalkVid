@@ -31,6 +31,9 @@
 * 🔥 **Rich annotations** with high-quality captions and comprehensive metadata
 
 ## 📜 News
+
+**\[2026/06/06\]** 🎉 Our paper has been accepted by CVPR 2026 Findings!
+
 **\[2025/08/19\]** 🚀 Our paper [TalkVid: A Large-Scale Diversified Dataset for Audio-Driven Talking Head Synthesis](https://arxiv.org/abs/2508.13618) is available!
 
 **\[2025/08/19\]** 🚀 Released TalkVid [dataset](https://huggingface.co/datasets/FreedomIntelligence/TalkVid) and training/inference code!
