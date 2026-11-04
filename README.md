@@ -56,6 +56,17 @@
 
 **More example videos** can be found in our 🌐 [Project Page](https://freedomintelligence.github.io/talk-vid).
 
+### Processed Dataset Access
+
+The processed video dataset is available by application for non-commercial research. To request access:
+
+1. Download the [Non-Commercial Research Dataset License Agreement (DOCX)](https://github.com/FreedomIntelligence/TalkVid/raw/refs/heads/main/docs/Non-Commercial-Research-Dataset-License-Agreement.docx).
+2. Read and sign the agreement.
+3. Email the signed agreement to **[shunianchen@link.cuhk.edu.cn](mailto:shunianchen@link.cuhk.edu.cn)**. Suggested subject: `TalkVid Dataset Access Request`.
+4. After receiving and reviewing your signed agreement, we will send you the dataset download link by email.
+
+You can send the signed agreement directly; there is no need to email us first to request the agreement. Please send signed agreements by email rather than posting them in a public GitHub issue.
+
 ### 📥 Data Download
 
 To download video clips from YouTube using the [TalkVid dataset](https://huggingface.co/datasets/FreedomIntelligence/TalkVid):
