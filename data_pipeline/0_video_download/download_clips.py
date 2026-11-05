@@ -229,8 +229,8 @@ def run_yt_dlp_multi_sections(
         "--clean-info-json",  # 清理信息文件
         # --- 输出模板 ---
         "-o", output_template,
-        # 尽量拿到 H.264+AAC，可无损 remux；退化到 best 也能跑
-        "-f", "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best",
+        # 更宽松的格式选择：优先 mp4，但允许其他格式
+        "-f", "bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio/best",
         "--merge-output-format", "mp4", 
     ]
     if strict_cuts:
@@ -247,24 +247,29 @@ def run_yt_dlp_multi_sections(
         proc = subprocess.run(cmd, capture_output=True, text=True, encoding='utf-8')
         if proc.returncode == 0:
             return 0, proc.stdout.strip()
-        # 简单回退：遇到“格式不可用”就退到 best
+        # 多层回退策略：遇到"格式不可用"时使用更简单的格式选择
         err_msg = (proc.stderr.strip() or proc.stdout.strip())
-        if "Requested format is not available" in err_msg:
+        if "Requested format is not available" in err_msg or "format" in err_msg.lower():
+            # 第一次回退：尝试更简单的格式选择（无编解码器限制）
             fallback_cmd = [
                 *base_cmd,
                 "-4", "--ignore-config", "--no-playlist",
                 "--retries", "10", "--fragment-retries", "10",
                 "--concurrent-fragments", "8", "-N", "4",
                 "--no-warnings", "--restrict-filenames",
-                "-c", "--no-overwrites",
+                "--no-continue", "--no-overwrites",  # 保持与主命令一致
                 # --- 新增功能 (回退) ---
                 "--print", "after_move:filepath",
                 "--write-subs", "--write-auto-subs", "--write-description",
-                "--extract-audio", "--audio-format", "m4a", "--keep-video",
+                "--extract-audio", "--audio-format", "m4a", "--audio-quality", "0",
+                "--keep-video",
+                "--no-keep-fragments",
+                "--clean-info-json",
                 # --- 输出模板 (回退) ---
                 "-o", output_template,
-                "-f", "bestvideo[ext=mp4][vcodec!=none]+bestaudio[ext=m4a]/best[ext=mp4][vcodec!=none]",
-                "--remux-video", "mp4",
+                # 第一次回退：只要求最佳质量，不限制格式
+                "-f", "best",
+                "--merge-output-format", "mp4",
             ]
             if strict_cuts:
                 fallback_cmd.append("--force-keyframes-at-cuts")
@@ -276,7 +281,27 @@ def run_yt_dlp_multi_sections(
             proc2 = subprocess.run(fallback_cmd, capture_output=True, text=True, encoding='utf-8')
             if proc2.returncode == 0:
                 return 0, proc2.stdout.strip()
-            return proc2.returncode, (proc2.stderr.strip() or proc2.stdout.strip())
+            
+            # 第二次回退：移除所有可选功能，仅下载视频
+            minimal_cmd = [
+                *base_cmd,
+                "-4", "--ignore-config", "--no-playlist",
+                "--retries", "10", "--fragment-retries", "10",
+                "--no-warnings", "--restrict-filenames",
+                "--no-continue", "--no-overwrites",
+                "--print", "after_move:filepath",
+                "-o", output_template,
+                "-f", "best",
+            ]
+            if extractor_args:
+                minimal_cmd.extend(["--extractor-args", extractor_args])
+            minimal_cmd.extend(section_args)
+            minimal_cmd.append(url)
+            
+            proc3 = subprocess.run(minimal_cmd, capture_output=True, text=True, encoding='utf-8')
+            if proc3.returncode == 0:
+                return 0, proc3.stdout.strip()
+            return proc3.returncode, (proc3.stderr.strip() or proc3.stdout.strip())
         return proc.returncode, err_msg
     except Exception as exc:  # noqa: BLE001
         return 1, f"yt-dlp failed: {exc}"
